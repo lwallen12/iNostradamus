@@ -1,0 +1,44 @@
+<html>
+<head>
+
+</head>
+
+<body>
+
+<div id="entries">
+    </div>
+
+<script src=https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js></script>
+
+<script type="text/javascript">
+         
+         var API_URL = 'https://rnm99ngfe7.execute-api.us-east-1.amazonaws.com/prod/entries';
+         
+         //window.alert("Hello:");
+
+         var My_API = 'https://rnm99ngfe7.execute-api.us-east-1.amazonaws.com/prod/pythonwrite';
+         $(document).ready(function(){
+            $.ajax({
+                type: 'GET',
+                url:  My_API,
+
+
+                success: function(data){
+                    $('#entries').html('');
+
+
+
+                    data.Items.forEach(function(blah){
+                        $('#entries').append('<p>' + blah.message + '<p>');
+                    })
+                }
+            });
+         });
+</script>
+
+
+
+</body>
+
+
+</html>

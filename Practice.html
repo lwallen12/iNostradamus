@@ -1,0 +1,102 @@
+<html>
+
+<head>
+
+<title>Mess Around</title>
+
+</head>
+
+<body>
+
+<div id="entries"></div>
+
+<p id="PK">Here I am once again</p>
+
+<button id="iClickNow" >Click ME!</button>
+
+
+
+<select id='selectUser' name='selectUser'>
+            <option value="RonaldMcBicep" name="Ronaay">Ronald McBicep</option>
+            <option value="JoeyCooley">Joey Cooley</option>
+  
+        </select>
+
+<div id='predictions'>
+        <p id='winner'>Definitely Not 1</p>
+        <p id='loser'>2</p>
+        <p id='gameNumber'>4</p>
+        <p id='mvp'>5</p>
+        <p id='stealer'>6</p>
+        <p id='homer'>7</p>
+        <p id='why'>8</p>
+        <p id='comment'>9</p>
+
+     </div>
+
+
+<script src=https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js></script>
+<script>
+
+const winnerTag = document.getElementById('winner');
+const loserTag = document.getElementById('loser');
+const numberTag = document.getElementById('gameNumber');
+const mvpTag = document.getElementById('mvp');
+const stealerTag = document.getElementById('stealer');
+const homerTag = document.getElementById('homer');
+const whyTag = document.getElementById('why');
+const commentTag = document.getElementById('comment');
+
+
+
+$('#iClickNow').on('click', function(){
+    const myDropDown = document.querySelector('select');
+    var myPar = document.querySelector('p');
+    var myDropDownPick = myDropDown.options[myDropDown.selectedIndex].value;
+    var baseURL = 'https://rnm99ngfe7.execute-api.us-east-1.amazonaws.com/prod/-pythongetparam?userID=';
+    var completeURL = baseURL + myDropDownPick;
+    var myData;
+    //all variables work!
+
+    $.ajax({
+                type: 'GET',
+                url:  completeURL,
+
+
+                success: function(data){
+
+                        myData = data.Predictions;
+
+                        //the two variables declared below are not used, but will be here for reference
+                        var myEntryID = myData[0].EntryID;
+                        var myUserID = myData[0].UserName;
+
+
+                        winnerTag.innerText = ('World Series Winner: ' + myData[1].WSWinner);
+                        loserTag.innerText = ('World Series Loser: ' + myData[1].SecondPlace);
+                        numberTag.innerText = ('Number of Games: ' + myData[1].NumberGames);
+                        mvpTag.innerText = ('MVP: ' + myData[1].MVP);
+                        stealerTag.innerText = ('Taco Stealer: ' + myData[1].TacoStealer);
+                        homerTag.innerText = ('Most Homers: ' + myData[1].MostHomers);
+                        whyTag.innerText = ('Why: ' + myData[1].Why);
+                        commentTag.innerText = ('Comments: ' + myData[1].Comments);
+
+
+                    }
+                
+            });
+
+
+myPar.innerText = myDropDownPick;
+
+ });
+
+
+
+</script>
+
+
+
+</body>
+
+</html>

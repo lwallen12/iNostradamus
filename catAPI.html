@@ -1,0 +1,39 @@
+<html>
+<head>
+
+</head>
+
+<body>
+
+<div id="entries">
+    </div>
+
+<script src=https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js></script>
+
+<script type="text/javascript">
+         var API_URL = 'https://rnm99ngfe7.execute-api.us-east-1.amazonaws.com/prod/entries';
+         
+
+         var CAT_API = 'https://cat-fact.herokuapp.com/facts';
+         $(document).ready(function(){
+            $.ajax({
+                type: 'GET',
+                url:  CAT_API,
+
+
+                success: function(data){
+                    $('#entries').html('');
+
+                    data.all.forEach(function(blah){
+                        $('#entries').append('<p>' + blah.text + '<p>');
+                    })
+                }
+            });
+         });
+
+</script>
+
+</body>
+
+
+</html>
