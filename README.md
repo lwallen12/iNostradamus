@@ -1,2 +1,2 @@
 # iNostradamus
-I mean the people say they can predict things you know?
+For nostradamus sports prediction and code
