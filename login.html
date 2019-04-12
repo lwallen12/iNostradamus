@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="css/RegisterForm.css" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
+	<script src="js/amazon-cognito-auth.min.js"></script>
+	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script> 
+	<script src="js/amazon-cognito-identity.min.js"></script>   
+  <script src="js/config.js"></script>
+  <script src="js/checker.js"></script>
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+.w3-sidebar {
+  z-index: 3;
+  width: 250px;
+  top: 43px;
+  bottom: 0;
+  height: inherit;
+}
+</style>
+<body>
+
+<!-- Navbar     w3-bar-item w3-button w3-theme-l1-->
+<div class="w3-top">
+  <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
+    <a href="index.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Home</a>
+    <a href="login.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Login</a>
+    <a href="SignUp.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Sign Up</a>
+    <a href="About.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>
+  </div>
+</div>
+
+<!-- Sidebar -->
+
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left:10px">
+
+  <div class="w3-row w3-padding-64">
+    <div class="w3-twothird w3-container">
+      <body>
+
+          <h1>Login</h1>
+
+
+        <div id="loginform" class="form-container">
+            <label>Email:</label>
+            <input id="username" type="text"><br>
+            <label>Password:</label>
+            <input id="password" type="password"><br>
+            <button id="login" class="btn btn-lg btn-primary btn-block" onclick="signin()">Login</button>
+        </div>
+
+        <button id="resetPass" class="btn btn-lg btn-primary btn-block" onclick="showReset()">Forgot Password</button>
+
+          <div id="reset" class="form-container">
+                <label>Email:</label>
+                <input id="resetEmail"></input>
+                <button onclick="resetMe()">Reset Me</button>
+          </div>
+         
+          <!--Here is the baseline!-->
+
+          <div id="confirmReset" class="form-container">
+              <label>Verification Code:</label>
+              <input id="verify" type="text" placeholder="verification code"><br>
+              <div id="pswd_info" class="password-one">
+                  <h4>Password must meet the following requirements:</h4>
+                  <ul>
+                      <li id="letter" class="invalid">At least <strong>one letter</strong></li>
+                      <li id="capital" class="invalid">At least <strong>one capital letter</strong></li>
+                      <li id="number" class="invalid">At least <strong>one number</strong></li>
+                      <li id="length" class="invalid">Be at least <strong>8 characters</strong></li>
+                  </ul>
+              </div>
+            
+              <label><b>New Password:</b></label><br>
+            <input type="password" class="form-control" id="passwordInputRegister" placeholder="Password" pattern=".*" required><br><br>
+
+            <div id="confirm_info" class="confirmation">
+                
+                <ul>
+                    <li id="letter" class="invalid"><strong>Passwords do not match.</strong></li>
+                </ul>
+            </div>
+
+            <label><b>Confirm Password:</b></label><br>
+              <input type="password" class="form-control" id="confirmationpassword" placeholder="Confirm Password" pattern=".*" required><br><br>
+              <button onclick="Submitpasswordreset()" class="btn btn-lg btn-primary btn-block" type="button">Reset Password</button>
+          </div>
+
+
+         
+
+          
+    </div>
+    
+  </div>
+
+
+  
+  
+  </div>
+
+  <!-- Pagination -->
+  
+  
+
+  <footer id="myFooter">
+    <div class="w3-container w3-theme-l2 w3-padding-32">
+      <h4>Footer</h4>
+    </div>
+
+    <div class="w3-container w3-theme-l1">
+      <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    </div>
+  </footer>
+
+ END MAIN 
+</div> 
+<script src=https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js></script>
+
+
+
+<script>
+
+    //Todo... add the verify form being shown on reset
+    //Todo... add the reset code itself
+    //Todo... add the same user notification information to be viewed for password as on sign up
+
+$('#reset').css("display", "none");
+$('#confirmReset').css("display", "none");
+
+function showReset() {
+    $('#reset').toggle();
+
+    $('#loginform').toggle();
+}
+
+
+function resetMe() {
+		//var userValue = $('p').text();
+		var userValue = $('#resetEmail').val();
+
+		var poolData = {
+        UserPoolId : _config.cognito.userPoolId, // Your user pool id here
+        ClientId : _config.cognito.clientId, // Your client id here
+		};
+		
+		
+	
+    var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+	
+    var userData = {
+        Username : userValue,
+        Pool : userPool,
+    };
+	
+    var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+
+		cognitoUser.forgotPassword({
+        onSuccess: function (result) {
+					alert('It was successful. Check your email for reset information, and then return here to finish the reset.');
+						console.log('call result: ' + result);
+
+					//	window.location.replace("http://google.com");
+
+          $('#confirmReset').css("display", "block");
+          $('#reset').css("display", "none");
+
+												
+											
+        },
+        onFailure: function(err) {
+					alert('It was unable to be reset. Please contact the admin.');
+            alert(err);
+			console.log(err);
+
+			var why = 'failure';
+        }
+				
+				
+		});
+		/*
+	if (why == 'success') {
+		window.location.replace("http://inostradamus.com");
+
+	}
+
+	else {
+		window.location.replace("http://google.com");
+	}*/
+
+}
+
+function signin() {
+    var authenticationData = {
+              Username : document.getElementById("username").value,
+              Password : document.getElementById("password").value,
+          };
+        
+          var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
+          
+        var poolData = {
+              UserPoolId : _config.cognito.userPoolId, // Your user pool id here
+              ClientId : _config.cognito.clientId, // Your client id here
+          };
+        
+          var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+        
+          var userData = {
+              Username : document.getElementById("username").value,
+              Pool : userPool,
+          };
+        
+          var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+          
+        cognitoUser.authenticateUser(authenticationDetails, {
+              onSuccess: function (result) {
+            var accessToken = result.getAccessToken().getJwtToken();
+                  console.log(accessToken);	//so here is our access token!
+                  
+                  window.location.replace("http://inostradamus.com/MyProfile.html");
+              },
+              onFailure: function(err) {
+                  alert(err.message || JSON.stringify(err));
+              },
+          });
+}
+
+
+
+  function confirmPassword(username, verificationCode, newPassword) {
+
+    var poolData = {
+              UserPoolId : _config.cognito.userPoolId, // Your user pool id here
+              ClientId : _config.cognito.clientId, // Your client id here
+          };
+        
+          var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+    cognitoUser = new AWSCognitoIdentity.CognitoUser({
+        Username: username,
+        Pool: userPool
+    });
+
+    return new Promise((resolve, reject) => {
+        cognitoUser.confirmPassword(verificationCode, newPassword, {
+            onFailure(err) {
+                reject(err);
+            },
+            onSuccess() {
+                resolve();
+            },
+        });
+    });
+}
+
+
+function finishReset() {
+
+var username = $('userReset').val();
+var verificationCode = $('verify').val();
+var newPassword = $('newPAssword').val();
+
+confirmPassword(username, verificationCode, newPassword);
+
+
+}
+
+
+//Biggest idiots dumb code:
+
+
+function Submitpasswordreset() {
+
+  var sameUsername = $('#resetEmail').val();
+  var verificationCode = $('#verify').val();
+  var newPassword = $('#passwordInputRegister').val();
+
+  /*
+  alert('verification code: ' + verificationCode);
+  alert('username: ' + sameUsername);
+  alert('new password' + newPassword);
+  */
+
+  var poolData = {
+              UserPoolId : _config.cognito.userPoolId, // Your user pool id here
+              ClientId : _config.cognito.clientId, // Your client id here
+          };
+        
+  var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+  var userData = {
+              Username : sameUsername,
+              Pool : userPool,
+          };
+
+
+function confirmPassword(username, verificationCode, newPassword) {
+    cognitoUser = new AmazonCognitoIdentity.CognitoUser({
+        Username: username,
+        Pool: userPool
+    });
+
+    return new Promise((resolve, reject) => {
+        cognitoUser.confirmPassword(verificationCode, newPassword, {
+            onFailure(err) {
+                reject(err);
+            },
+            onSuccess() {
+                resolve();
+            },
+        });
+    });
+}
+        
+    confirmPassword(sameUsername, verificationCode, newPassword);
+
+    //Make this a SAWEET Alert
+    alert("All reset!");
+
+    window.location.replace("http://inostradamus.com");
+    
+}
+
+
+
+
+</script>
+
+</body>
+</html>

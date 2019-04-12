@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<head>
+<html lang="en">
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
+<link href="css/base.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">-->
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+<link href="css/DynamicForm.css" rel="stylesheet" type="text/css">
+<link href="css/animations.css" rel="stylesheet" type="text/css">
+
+<script src="js/simpleFunctions.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
+<script src="js/amazon-cognito-auth.min.js"></script>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script> 
+<script src="js/amazon-cognito-identity.min.js"></script>   
+<script src="js/config.js"></script>
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+.w3-sidebar {
+  z-index: 3;
+  width: 250px;
+  top: 43px;
+  bottom: 0;
+  height: inherit;
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar     w3-bar-item w3-button w3-theme-l1-->
+<div class="w3-top">
+  <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-small w3-hover-white" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+    <a href="SportsPrediction.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Sports Prediction</a>
+    <a href="MyProfile.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">My Profile</a>
+    <a href="ElectionPrediction.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Election Prediction</a>
+  </div>
+</div>
+
+<!-- Sidebar -->
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+    <i class="fa fa-remove"></i>
+  </a>
+  <h4 class="w3-bar-item"><b>Predictions:</b></h4>
+  <a class="w3-bar-item w3-button w3-hover-black" href="NFLPrediction.html">NFL</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="MLBPrediction.html">MLB</a>
+</nav>  
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left:250px">
+
+  <div class="w3-row w3-padding-64">
+    <div class="w3-twothird w3-container">
+    <div class="my-two-third">
+      <body>
+
+          <h1 class="w3-text-black">Make an MLB Regular Season Prediction</h1>
+          <div id="Noster"></div>
+          <div id="name"></div>
+
+
+          <select id='teamdd' class="pretty-dropdown">
+            <option value="ARI">Arizona Diamondbacks</option>
+            <option value="ATL">Atlanta Braves</option>
+            <option value="BAL">Baltimore Orioles</option>
+            <option value="BOS">Boston Red Sox</option>
+            <option value="CHW">Chicago White Sox</option>
+            <option value="CHC">Chicago Cubs</option>
+            <option value="CIN">Cincinnati Reds</option>
+            <option value="CLE">Cleveland Indians</option>
+            <option value="COL">Colorado Rockies</option>
+            <option value="DET">Detroit Tigers</option>
+            <option value="HOU">Houston Astros</option>
+            <option value="KC">Kansas City Royals</option>
+            <option value="LAA">Los Angeles Angels</option>
+            <option value="LAD">Los Angeles Dodgers</option>
+            <option value="MIA">Miami Marlins</option>
+            <option value="MIL">Milwaulkee Brewers</option>
+            <option value="MIN">Minessota Twins</option>
+            <option value="NYY">New York Yankees</option>
+            <option value="NYM">New York Mets</option>
+            <option value="OAK">Oakland Athletics</option>
+            <option value="PHI">Philadelphia Phillies</option>
+            <option value="PIT">Pittsburg Pirates</option>
+            <option value="SD">San Diego Padres</option>
+            <option value="SF">San Fransisco Giants</option>
+            <option value="SEA">Seattle Mariners</option>
+            <option value="STL">St. Lious Cardinals</option>
+            <option value="TB">Tampa Bay Rays</option>
+            <option value="TEX">Texas Rangers</option>
+            <option value="TOR">Toronto Blue Jays</option>
+            <option value="WSH">Washington Nationals</option>
+
+          </select>
+
+          <select id='monthdd' class="pretty-dropdown">
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+          </select>
+
+          <br></br>
+          <button id='getEvents' class="open-button">View Games</button> <button id='clearSearch' class="close-button" onClick='clearSearch()'>Clear Search</button>
+          <br></br>
+
+          <div id="loadhere"></div>
+
+          <br></br>
+          <div id='appendMe'></div>
+
+
+         <!-- <img src="images/allteams.png" class="side-image" alt="All Teams">-->
+    </div>
+    <div class="w3-third w3-container">
+      <!--<p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
+      <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p>-->
+    </div>
+  </div>
+  </div>
+
+  
+
+  <div class="w3-row">
+      
+    <div class="w3-twothird w3-container">
+      <h1 class="w3-text-teal">My Active Predictions</h1>
+      <div id="ActivePredictions">
+        
+    </div>
+    <div id="loadActiveHere"></div>
+
+      </div>
+    <div class="w3-third w3-container">
+      <p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
+      <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p>
+    </div>
+  </div>
+
+  <div class="w3-row w3-padding-64">
+    <div class="w3-twothird w3-container">
+      <h1 class="w3-text-teal">Heading</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum
+        dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+    <div class="w3-third w3-container">
+        <p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
+        <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p>
+      </div>
+   
+  </div>
+
+  <!-- Pagination -->
+  
+  <!--
+  <div class="w3-center w3-padding-32">
+    <div class="w3-bar">
+      <a class="w3-button w3-black" href="#">1</a>
+      <a class="w3-button w3-hover-black" href="#">2</a>
+      <a class="w3-button w3-hover-black" href="#">3</a>
+      <a class="w3-button w3-hover-black" href="#">4</a>
+      <a class="w3-button w3-hover-black" href="#">5</a>
+      <a class="w3-button w3-hover-black" href="#">»</a>
+    </div>
+  </div>-->
+
+  <footer id="myFooter">
+    <div class="w3-container w3-theme-l2 w3-padding-32">
+      <h4>Footer</h4>
+    </div>
+
+    <div class="w3-container w3-theme-l1">
+      <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    </div>
+  </footer>
+
+ END MAIN 
+</div> 
+<script src=https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js></script>
+<script src=js/EditDynamicCopy.js></script>
+<script src=js/config.js></script>
+<script src=js/returnActive.js></script>
+<script src=js/userstuff.js></script>
+<script>
+
+
+alert("Noster var from main script: " + Noster_ID);
+
+
+var isPredicted = false;
+
+function openForm(clicked_Id) {
+          
+          
+  
+          var thisForm = parseInt(clicked_Id) + parseInt(100);
+
+          var theDate = $('#'+thisForm).prev().prev().text(); 
+          
+          //alert("date of the event" + theDate);
+
+          var dt = new Date();
+          dt.setDate(dt.getDate() + 1);
+
+          //I defined format date up above
+          var today = formatDate(dt);
+
+          //alert("today: " + today);
+
+          if (Date.parse(theDate) <= Date.parse(today)) {
+              alert("This event has either already occurred or is occurring today. You cannot make a prediction now.");
+          }
+
+          else {   
+
+              document.getElementById(thisForm).style.display = "block";
+
+              //API Call will go here... to prediction table to find active records for current user and event_ID
+
+              //ensuring can access the current form's Event_ID 
+              var Event_ID = $('#'+thisForm).find("label[id=Event_ID]").text();
+              console.log(Event_ID);
+              console.log(email);
+              //console.log(cognitoUser); This is the user object..  not the id of the user
+
+              var baseURL = 'https://rnm99ngfe7.execute-api.us-east-1.amazonaws.com/prod/checkformlbprediction?';
+
+              var params = 'Noster_ID=' + email + '&Event_ID=' + Event_ID;
+
+              var completeURL = baseURL + params;
+
+              console.log(completeURL);
+
+            $.ajax({
+                  url: completeURL,
+                  type: "GET",
+                  success: function(result) {
+                          console.log(result)
+                          if (!result)  {
+                            console.log(result)
+                                }
+                          else {
+
+                            var displayOT = result.Events[0].OT;
+                            var displayMessage;
+
+                            if (result.Events[0].OT === undefined) {
+                              displayMessage = 'None'
+                            }
+
+                            else {
+                              displayMessage = 'Yes'
+                            }
+
+                            alert(`You already have predicted this event! If you wish to update this prediction, please continue! ` + ` Winner: ` + result.Events[0].Winner + ` Loser: ` + result.Events[0].Loser
+                            + ` Winner Score: ` + result.Events[0].Winner_Score + ` Loser Score: ` + result.Events[0].Loser_Score + ` Overtime? ` + displayMessage);
+                            
+                            isPredicted = true;
+
+                            console.log("Winner: " + result.Events[0].Winner);
+                          }
+                        }
+                });
+
+              }
+          
+          
+}
+
+function closeForm(clicked_Id) {
+  var thisForm = parseInt(clicked_Id) - parseInt(900);
+  //window.alert(thisForm);
+  document.getElementById(thisForm).style.display = "none";
+}
+
+
+
+function submitPrediction(clicked_Id) {
+
+  //alert("Noster var from submit Pred function: " + Noster_ID);
+  //alert("this is email from userstuff?:" + email);
+
+    var currentForm = (clicked_Id - parseInt(10000) + 100);
+    var myComments = $('#'+currentForm).find("textarea[id=comments]").val();
+    var Event_ID = $('#'+currentForm).find("label[id=Event_ID]").text();
+    var IS_Overtime = $('#'+currentForm).find("input[id=ot]").prop("checked");
+    var theDate = $('#'+currentForm).prev().prev().text(); 
+
+    var team1 = $('#'+currentForm).find('#team1');
+    var team2 = $('#'+currentForm).find('#team2');
+
+    console.log(team1);
+
+    console.log(IS_Overtime);
+
+
+  //Is this necessary?
+    if (IS_Overtime == true) {
+      
+      OT = 1
+      
+    }
+
+  
+
+    var Winner;
+    var Loser;
+    var Winner_Score;
+    var Loser_Score;
+    
+
+    var currentID = parseInt(clicked_Id);
+
+
+    
+    Winner_Score = document.getElementById(currentID - 6000).value;
+    Loser_Score = document.getElementById(currentID - 5000).value;
+  
+
+  //var Event_ID = document.getElementById(currentID - 3000).innerText;//3000
+  var Title = document.getElementById(currentID - 2000).innerText;
+  //var Month_Date = document.getElementById(currentID - 1000).innerText;
+
+  
+
+//Finds the winner and loser
+  if (team1.prop('checked') == true) {
+    
+    Winner = team1.val();
+    Loser = team2.val();
+  }
+
+  else { 
+    Winner = team2.val();
+    Loser = team1.val();
+  }
+
+    
+
+   
+
+    var mainButton = document.getElementById(currentID - 10000).style["background-color"] = "#555";
+
+
+    //Should change this so it returns the active noster like all of the other pages!
+    //var Noster_ID = $('#Noster').text();
+    
+
+
+    
+API_URL = 'https://rnm99ngfe7.execute-api.us-east-1.amazonaws.com/prod/SelectMLBEvent';
+    $.ajax({
+
+      
+            type: 'POST',
+            url: API_URL,
+            data: JSON.stringify(
+
+              {
+                "Winner": Winner,
+                "Loser": Loser,
+                "Winner_Score": Winner_Score,
+                "Loser_Score": Loser_Score,
+                "Month_Date": null,
+                "IS_Overtime": IS_Overtime,
+                "Event_ID": Event_ID,
+                "Comments": myComments,
+                "Noster_ID": email,
+                "Event_Date": theDate
+              }),
+
+            contentType: "application/json",
+
+
+            success: function(data){
+              return false;
+            }
+          }); 
+
+document.getElementById(currentID - 9900).style.display = "none";
+
+
+return false;
+}
+
+function unCheckt2(clicked_Id) {
+
+  team2 = $('#'+clicked_Id).next().next().prop("checked", false);
+         
+}
+
+function unCheckt1(clicked_Id) {
+  team1 = $('#'+clicked_Id).prev().prev().prop("checked", false);         
+}
+
+function clearSearch() {
+          document.location.reload(true);
+}
+</script>
+<script>
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+    overlayBg.style.display = "none";
+  } else {
+    mySidebar.style.display = 'block';
+    overlayBg.style.display = "block";
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+  mySidebar.style.display = "none";
+  overlayBg.style.display = "none";
+}
+
+
+
+
+</script>
+</body>
+</html>
